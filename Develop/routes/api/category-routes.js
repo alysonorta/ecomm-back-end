@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-//Get a single category
+//Get a single category by id
 router.get('/:id', async (req, res) => {
   try {
     const categoryData = await Category.findByPk(req.params.id, {
