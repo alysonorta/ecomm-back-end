@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 
 
 //Get a single tag by its id
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const tagData = await Tag.findByPk(req.params.id, {
       include: [{ model: Product }, { model: ProductTag }],
@@ -62,13 +62,15 @@ router.put('/:id', async (req, res) => {
 
 //Delete on tag by its id value
 router.delete('/:id', (req, res) => {
-  const tagData = await Tag.destroy({
+  Tag.destroy({
     where: {
       id: req.params.id,
     },
-  }),
-
-  return res.json(tagData);
+  })
+    .then((deletedTag) => {
+      res.json(deletedTag);
+    })
+    .catch((err) => res.json(err));
 });
 
 module.exports = router;
